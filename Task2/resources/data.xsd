@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://trains.rzd.oao" xmlns:tns="http://trains.rzd.oao">
+    <xs:element name="train" type="tns:Train"/>
+
+    <xs:complexType name="Train">
+        <xs:sequence>
+            <xs:element name="id" type="xs:string"></xs:element>
+            <xs:element name="name" type="xs:string"></xs:element>
+            <xs:element name="locomotive-type" type="xs:string"></xs:element>
+            <xs:element name="form-date" type="xs:dateTime"></xs:element>
+            <xs:element name="wagons" type="tns:Wagons"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Wagons">
+        <xs:sequence>
+            <xs:element name="wagon" type="tns:Wagon" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Wagon">
+        <xs:sequence>
+            <xs:element name="id" type="xs:string"></xs:element>
+            <xs:element name="num" type="xs:integer" minOccurs="1" maxOccurs="1"></xs:element>
+            <xs:element name="seats" type="xs:integer" minOccurs="1" maxOccurs="unbounded"></xs:element>
+            <xs:element name="type" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
