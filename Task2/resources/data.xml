@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<train>
+<train xmlns="http://trains.rzd.oao">
     <id>46ed6171-1eba-4411-bcb4-d7cb7ca4aefe</id>
     <name>Москва - Северобайкальск</name>
     <locomotive-type>Электровоз</locomotive-type>

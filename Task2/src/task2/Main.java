@@ -1,37 +1,30 @@
 package task2;
 
-import generated.Train;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import oao.rzd.trains.Train;
+import oao.rzd.trains.Wagon;
+import oao.rzd.trains.Wagons;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.math.BigDecimal;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import java.io.*;
 
 public class Main {
 
     public static void main(String[] args) {
         {
             InputStream is = null;
-            OutputStream os = null;
             try {
+
                 // Подготавливаем файлы для записи
                 is = new FileInputStream("resources/data.xml");
-                os = new FileOutputStream("resources/otherCatalog.xml");
 
                 // Пример чтения файла
                 readXML(is);
 
                 // Пример записи файла
-               // writeXML(os);
-
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             } catch (JAXBException ex) {
@@ -39,7 +32,6 @@ public class Main {
             } finally {
                 try {
                     is.close();
-                    os.close();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -50,32 +42,26 @@ public class Main {
 
     private static void readXML(InputStream is) throws JAXBException {
         // Подготавливаем необходимый набор объектов для чтения
-        JAXBContext jc = JAXBContext.newInstance("oao.rzd.trains");
+        JAXBContext jc = JAXBContext.newInstance(Train.class, Wagons.class, Wagon.class);
         Unmarshaller u = jc.createUnmarshaller();
 
         // Считываем файл в иерархию объектов
-        Train po = (Train) u.unmarshal(is, Train.class);
+        Train po = (Train) u.unmarshal(new File("resources/data.xml"));
 
         // Убеждаемся, что объекты есть
-        System.out.println("Wagon:" + po.getWagons().getWagon().get(0));
-    }
-/*
-    private static void writeXML(OutputStream os) throws JAXBException, FileNotFoundException {
-        // Подготавливаем необходимый набор объектов для записи
-        JAXBContext jc = JAXBContext.newInstance("src/generated");
-        Marshaller m = jc.createMarshaller();
+        System.out.println("Train:" + po.getName());
 
-        // Создаем новый набор элементов для записи
-        BookCatalogue bc = new BookCatalogue();
-        Book b = new Book();
-        b.setAuthor("First");
-        Cost c = new Cost();
-        c.setValue(new BigDecimal(1001));
-        b.setCost(c);
-        bc.getBook().add(b);
+        //Создаем объект Gson
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(po);
+        System.out.println(json);
 
-        // И записываем это в файл XML
-        m.marshal(bc, os);
+        //Записываем данные в json файл
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("resources/data.json"))) {
+            writer.write(json);
+        }
+        catch(IOException e){
+            // Handle the exception
+        }
     }
-    */
 }

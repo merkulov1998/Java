@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://trains.rzd.oao" xmlns:tns="http://trains.rzd.oao">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://trains.rzd.oao" elementFormDefault="qualified" xmlns:tns="http://trains.rzd.oao">
     <xs:element name="train" type="tns:Train"/>
 
     <xs:complexType name="Train">
