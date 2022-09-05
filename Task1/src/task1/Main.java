@@ -2,52 +2,38 @@ package task1;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        /*
-        File[] files = new File[10];
 
-        File dir = new File("src/output"); //path указывает на директорию
-        List<File> lst = new ArrayList<>();
-        for ( File file : dir.listFiles() ){
-            if ( file.isFile() )
-                lst.add(file);
-        }
-        */
         File dir = new File("src/input");
-        List<File> lst = new ArrayList<>();
-        for ( File file : dir.listFiles() ){
-            if ( file.isFile() )
-                lst.add(new File(file.getName()));
-            System.out.println(file.getName());
-        }
+        List<File> lst = Arrays.asList(dir.listFiles());
 
-        int count = 0;
-        String s= null;
+
         List<String> list = new ArrayList<>();
-        int c;
-        for(File name:lst){
-            FileReader in = new FileReader("src/input/"+name);
+        for(File file:lst){
+            FileReader in = new FileReader(file);
             BufferedReader br = new BufferedReader(in);
+            String s= null;
             while ((s=br.readLine())!=null) {
                 list.add(s+"\n");
-                count++;
             }
-
+            System.out.println(list);
             br.close();
-            if(count<=10){
-                System.out.println("Error");
-            }else{
-                FileWriter out = new FileWriter("src/output/"+name);
+            if(list.size()>10){
+                FileWriter out = new FileWriter("src/output/"+file.getName());
                 for (String value : list) {
                     out.write(value);
                 }
                 out.flush();
                 out.close();
+            }else{
+                System.out.println("Error");
             }
+            list.clear();
         }
     }
 }
